@@ -64,7 +64,7 @@ The parameters that are tuned for training and testing the classifier are color 
 
 #### 3. Describe how (and identify where in your code) you trained a classifier using your selected HOG features (and color features if you used them).
 
-I trained a linear SVM using...
+Training basically involves extracting features from the training set and supplying these features to the training algorithm along with corresponding labels. The labeled data set for this project is provided by Udacity and contains vehicle (8972) and non-vehicle (8968) images. I chose to combine all the features from HOG and color classification instead of relying on a single method of feature extraction. Also, the classifier chosen in this project is Linear kernal Support Vector Machine (SVM), which has been shown to perform well with HOG features. However, I haven't applied GridSearchCV for choosing best paramter combination and C is left for this default value. The data is nomalized using StandardScaler() method, to avoid individual features or sets of features dominating the response of classifier. After this, the data is shuffled and split using train_test_split function, with 4:1 ratio respectively, and supplied to the classifier. Using the above parameter values as input and above described pre-processing steps, I trained my linear SVM classifier which resulted in a testing accuracy of 0.987. 
 
 ### Sliding Window Search
 
