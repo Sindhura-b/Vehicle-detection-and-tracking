@@ -85,8 +85,9 @@ I searched only for a single window size and overlap using sliding window search
 ### Video Implementation
 
 #### 1. Provide a link to your final video output.  Your pipeline should perform reasonably well on the entire project video (somewhat wobbly or unstable bounding boxes are ok as long as you are identifying the vehicles most of the time with minimal false positives.)
-Here's a [link to my video result from sliding window search](./project_video_slidingwin_output.mp4)
-Here's a [link to my video result from sliding window search](./project_video_hogsubsamp.mp4)
+Here's the [link to my video result from sliding window search](./project_video_slidingwin_output.mp4)
+
+And, here's the [link to my video result from sliding window search](./project_video_hogsubsamp.mp4)
 
 #### 2. Describe how (and identify where in your code) you implemented some kind of filter for false positives and some method for combining overlapping bounding boxes.
 
@@ -106,5 +107,6 @@ Here's an example result showing the heatmaps of test images using HOG subsampli
 
 #### 1. Briefly discuss any problems / issues you faced in your implementation of this project.  Where will your pipeline likely fail?  What could you do to make it more robust?
 
-Here I'll talk about the approach I took, what techniques I used, what worked and why, where the pipeline might fail and how I might improve it if I were going to pursue this project further.  
+In this project, I had two different pipelines for sliding window search and HOG sub-sampling. Looking at the video output, I observed that HOG-subsampling produced better results on all frames compared to sliding window search. Implementing a method to  storing previous bouding box information and using it on current frame or scaling the bouding box according to location of vehicle in the video could have produced more stable bounding boxes in the video stream. 
 
+The pipeline can be made more robust by implemeting GridSearchCV, that tunes the parameters of classifier for efficiently. Also, instead of a simple SVM classifier, using neural network approach could be tried for more robust detection of vehicles in the video frames.
