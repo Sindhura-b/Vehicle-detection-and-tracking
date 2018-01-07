@@ -13,9 +13,9 @@ The goals / steps of this project are the following:
 
 [//]: # (Image References)
 [image1]: ./test_images/car_non_car.png
-[image2]: ./test_images/heatmap_hogsubsamp.jpg
-[image3]: ./test_images/heatmap_sliding.jpg
-[image4]: ./test_images/sliding_window.jpg
+[image2]: ./test_images/heatmap_hogsubsamp.png
+[image3]: ./test_images/heatmap_sliding.png
+[image4]: ./test_images/sliding_window.png
 [image5]: ./test_images/hog_features.png
 [image6]: ./test_images/hog_subsampling.png
 [video1]: ./project_video.mp4
@@ -48,7 +48,19 @@ Here is an example of HOG visualization for a car and non-car image using the `R
 
 #### 2. Explain how you settled on your final choice of HOG parameters.
 
-The parameters that are tuned for training and testing the classifier are color space, oreintation, pixel per cell, cells per block, spatial size, histbin, hog features, spatial features and histogram features. I tried various combinations of parameters and...
+The parameters that are tuned for training and testing the classifier are color space, oreintation, pixel per cell, cells per block, spatial size, histbin, hog features, spatial features and histogram features. I tried various combinations of parameters and found that the testing accuracy (0.97 to 0.99)  and time taken to classify (40 to 90 sec) accordingly. After alot of experiementation and based on the discussions in Udacity's forum, I understood that color space is the dominant parameter in detecting vehicles and choosing 'YCrCb' or 'YUV' yielded best results on frames in a test video. Following table shows my final parameter set values used for training ad testing.
+
+| Parameter        		|     Value	        					| 
+|:---------------------:|:---------------------------------------------:| 
+| Color space       | YCrCb   |
+| Orientations      | 11   |
+| Pixels per cell      | 16   |
+| Cells per block      | 2   |
+| Spatial size      | (32,32)  |
+| Hist bins      | 32  |
+| Hog features | True |
+|Histogram features | True |
+|Spatial features | True |
 
 #### 3. Describe how (and identify where in your code) you trained a classifier using your selected HOG features (and color features if you used them).
 
