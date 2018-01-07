@@ -64,46 +64,41 @@ The parameters that are tuned for training and testing the classifier are color 
 
 #### 3. Describe how (and identify where in your code) you trained a classifier using your selected HOG features (and color features if you used them).
 
-Training basically involves extracting features from the training set and supplying these features to the training algorithm along with corresponding labels. The labeled data set for this project is provided by Udacity and contains vehicle (8972) and non-vehicle (8968) images. I chose to combine all the features from HOG and color classification instead of relying on a single method of feature extraction. Also, the classifier chosen in this project is Linear kernal Support Vector Machine (SVM), which has been shown to perform well with HOG features. However, I haven't applied GridSearchCV for choosing best paramter combination and C is left for this default value. The data is nomalized using StandardScaler() method, to avoid individual features or sets of features dominating the response of classifier. After this, the data is shuffled and split using train_test_split function, with 4:1 ratio respectively, and supplied to the classifier. Using the above parameter values as input and above described pre-processing steps, I trained my linear SVM classifier which resulted in a testing accuracy of 0.987. 
+Training basically involves extracting features from the training set and supplying these features to the training algorithm along with corresponding labels. The labeled data set for this project is provided by Udacity and contains vehicle (8972) and non-vehicle (8968) images. I chose to combine all the features from HOG and color classification instead of relying on a single method of feature extraction. Also, the classifier chosen in this project is linear kernal Support Vector Machine (SVM), which has been shown to perform well with HOG features. However, I haven't applied GridSearchCV for choosing best paramter combination and C is left for this default value. The data is nomalized using `StandardScaler` method, to avoid individual features or sets of features dominating the response of classifier. After this, the data is shuffled and split using `train_test_split` function, with 4:1 ratio respectively, and supplied to the classifier. Using the above parameter values as input and above described pre-processing steps, I trained my linear SVM classifier which resulted in a testing accuracy of 0.987. 
 
 ### Sliding Window Search
 
 #### 1. Describe how (and identify where in your code) you implemented a sliding window search.  How did you decide what scales to search and how much to overlap windows?
 
-I decided to search random window positions at random scales all over the image and came up with this (ok just kidding I didn't actually ;):
+Sliding window search involves stepping across an image in grid pattern and extracting the same features the classifier is trained on at each window. Then, the classfier is run at each window step to predict the presence of Car in that window. The whole process of sliding window search is implemented using functions `sliding_window`, `single_img_features` and `search_windows`. The parameters effecting the sliding window search implementation are window size and window overlap. A window size of (96,96) and overlap of (0.75,0.75) produced the best results for detecting cars in a given image. Windows with vehicles detected in test images using sliding window search are shown below.
 
-![alt text][image3]
+![alt text][image4]
+
+I also explored HOG subsampling, in which HOG and color features are extracted only once, and is a more efficient method for doing the sliding window approach. The code for performing HOG subsampling is written in `find_cars` function using Udacity lecture notes. This function requires tuning only one parameter called scale factor to determine the window size and over lap. I ran this function multiple times for different scale values ranging from 1.0 to 2.5 in steps of 0.2 to generate multiple-scaled search windows. Windows with vehicles detected in test image-4 using HOG subsampling approach are shown below.
+
+![alt text][image6]
 
 #### 2. Show some examples of test images to demonstrate how your pipeline is working.  What did you do to optimize the performance of your classifier?
 
-Ultimately I searched on two scales using YCrCb 3-channel HOG features plus spatially binned color and histograms of color in the feature vector, which provided a nice result.  Here are some example images:
-
-![alt text][image4]
----
+I searched only for a single window size and overlap using sliding window search approach. However, I searched on multiple scales in HOG subsampling approach using YCrCb 3-channel HOG features plus spatially binned color and histograms of color in the feature vector. Both methods yielded satisfactory vehicle detection results.
 
 ### Video Implementation
 
 #### 1. Provide a link to your final video output.  Your pipeline should perform reasonably well on the entire project video (somewhat wobbly or unstable bounding boxes are ok as long as you are identifying the vehicles most of the time with minimal false positives.)
-Here's a [link to my video result](./project_video.mp4)
-
+Here's a [link to my video result from sliding window search](./project_video_slidingwin_output.mp4)
+Here's a [link to my video result from sliding window search](./project_video_hogsubsamp.mp4)
 
 #### 2. Describe how (and identify where in your code) you implemented some kind of filter for false positives and some method for combining overlapping bounding boxes.
 
-I recorded the positions of positive detections in each frame of the video.  From the positive detections I created a heatmap and then thresholded that map to identify vehicle positions.  I then used `scipy.ndimage.measurements.label()` to identify individual blobs in the heatmap.  I then assumed each blob corresponded to a vehicle.  I constructed bounding boxes to cover the area of each blob detected.  
+I recorded the positions of positive detections in each frame of the video.  From the positive detections I created a heatmap and then thresholded that map to identify vehicle positions. The value of heat threshold chosen in this project is 2. I then used `scipy.ndimage.measurements.label()` to identify individual blobs in the heatmap.  I then assumed each blob corresponded to a vehicle.  I constructed bounding boxes to cover the area of each blob detected.  
 
-Here's an example result showing the heatmap from a series of frames of video, the result of `scipy.ndimage.measurements.label()` and the bounding boxes then overlaid on the last frame of video:
+Here's an example result showing the heatmaps of test images using sliding window search approach, the result of `scipy.ndimage.measurements.label()` and the bounding boxes then overlaid on the test images:
 
-### Here are six frames and their corresponding heatmaps:
+![alt text][image3]
 
-![alt text][image5]
+Here's an example result showing the heatmaps of test images using HOG subsampling, the result of `scipy.ndimage.measurements.label()` and the bounding boxes then overlaid on the test images:
 
-### Here is the output of `scipy.ndimage.measurements.label()` on the integrated heatmap from all six frames:
-![alt text][image6]
-
-### Here the resulting bounding boxes are drawn onto the last frame in the series:
-![alt text][image7]
-
-
+![alt text][image2]
 
 ---
 
